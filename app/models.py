@@ -38,6 +38,6 @@ class User(UserMixin, db.Model):
 
 @login.user_loader
 def load_user(id):
-    return User.query.get(int(id)) #query coming from sqlalchemy
+    return User.query.get(int(id))
 
         #SELECT * FROM user WHERE id = ???
