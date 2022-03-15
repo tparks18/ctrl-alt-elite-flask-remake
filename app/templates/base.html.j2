@@ -12,20 +12,19 @@
 <title>
     {% block title %}
     {% endblock title %}
-
 </title>
 </head>
 <body>
+    {% include './includes/nav.html.j2' %}
 
-{% include './includes/nav.html.j2' %}
 {% with messsages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-    {% for class, message in messages %}
-    <div class="alert alert-{{class}} alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endfor %}
+        {% for class, message in messages %}
+            <div class="alert alert-{{class}} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
     {% endif %}
 {% endwith %}
 <div class="container">
