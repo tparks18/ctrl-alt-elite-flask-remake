@@ -3,7 +3,7 @@ from .forms import LoginForm, RegisterForm
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_wtf import FlaskForm
 from .models import User
-from flask_login import login_user
+from flask_login import login_user, current_user, logout_user, login_required
 import requests
 
 
@@ -55,13 +55,22 @@ def register():
     #get return
     return render_template('register.html.j2', form=form)
 
+@app.route('/logout')
+@login_required
+def logout():
+    if current_user:
+        logout_user()
+        flash('You have logged out', 'warning')
+        return redirect(url_for('login'))
 
 @app.route('/')
+@login_required
 def index():
-    flash('heycoolguys', 'danger')
+    # flash('heycoolguys', 'danger')
     return render_template('index.html.j2')
 
 @app.route('/ergast', methods = ['GET', 'POST'])
+@login_required
 #normally these would all be different functions if we had a larger application
 #keep this in mind for code reviews?
 def ergast():

@@ -12,6 +12,8 @@ app.config.from_object(Config)
 
 #init my login manager
 login = LoginManager(app)
+#This is where you go if you are not logged in
+login.login_view='login'
 
 #do inits for database stuff
 db = SQLAlchemy(app)
