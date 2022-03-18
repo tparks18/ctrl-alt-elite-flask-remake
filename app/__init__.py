@@ -5,26 +5,35 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
-#init the app
-app = Flask(__name__)
-#link our config
-app.config.from_object(Config)
 
 #init my login manager
-login = LoginManager(app)
+login = LoginManager()
+db = SQLAlchemy()
+migrate = Migrate()
+
+def create_app(config_class=Config):
+    #link our config
+    #init the app
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+
+    #register plugins
+    login.init_app(app)
+    db.init_app(app)
+    migrate.init_app(app, db)
+
 #This is where you go if you are not logged in
-login.login_view='login'
-login.login_message = 'Log yo punk ass into the website first'
-login.login_message_category = 'warning'
+    login.login_view='auth.login'
+    login.login_message = 'Log yo punk ass into the website first'
+    login.login_message_category = 'warning'
 
-#do inits for database stuff
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+    #do inits for database stuff
 
-from .blueprints.main import bp as main_bp
-app.register_blueprint(main_bp)
+    from .blueprints.main import bp as main_bp
+    app.register_blueprint(main_bp)
 
-from .blueprints.auth import bp as auth_bp
-app.register_blueprint(auth_bp)
+    from .blueprints.auth import bp as auth_bp
+    app.register_blueprint(auth_bp)
 
-from app import models
+    return app
+
