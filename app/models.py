@@ -10,6 +10,7 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(150))
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(200))
+    icon = db.Column(db.Integer)
     created_on = db.Column(db.DateTime, default=dt.utcnow)
 
     def __repr__(self):
@@ -30,11 +31,15 @@ class User(UserMixin, db.Model):
         self.last_name = data['last_name']
         self.email = data['email']
         self.password = self.hash_password(data['password'])
+        self.icon = data['icon']
 
     #saves the user to the database
     def save(self):
         db.session.add(self) #add the user to the db session
         db.session.commit() #save everything in the session to the database
+    
+    def get_icon_url(self):
+        return f'https://avatars.dicebear.com/api/big-smile/{self.icon}.svg'
 
 @login.user_loader
 def load_user(id):

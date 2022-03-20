@@ -35,7 +35,8 @@ def register():
                 "first_name": form.first_name.data.title(),
                 "last_name": form.last_name.data.title(),
                 "email": form.email.data.lower(),
-                "password": form.password.data
+                "password": form.password.data,
+                "icon": int(form.icon.data)
             }
             #create an empty user
             new_user_object = User()
@@ -71,7 +72,8 @@ def edit_profile():
             "first_name": form.first_name.data.title(),
             "last_name": form.last_name.data.title(),
             "email": form.email.data.lower(),
-            "password": form.password.data
+            "password": form.password.data,
+            "icon": int(form.icon.data) if int(form.icon.data) != 9000 else current_user.icon
         }
         user = User.query.filter_by(email=form.email.data.lower()).first()
         if user and user.email != current_user.email:
