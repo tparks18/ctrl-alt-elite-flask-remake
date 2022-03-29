@@ -13,12 +13,12 @@
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('main.ergast')}}">Ergast</a>
         </li>
-        <li class="nav-item">
+        {# <li class="nav-item">
           <a class="nav-link" href="{{url_for('auth.edit_profile')}}">Edit Profile</a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="{{url_for('auth.logout')}}">Logout</a>
-        </li>
+        </li> #}
         {% else %}
         <li class="nav-item">
         <a class="nav-link" href="{{url_for('auth.login')}}">Login</a>
@@ -43,18 +43,23 @@
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li> #}
       </ul>
-      <ul class="nav-bar ms-auto align-items-center">
+      {% if current_user.is_authenticated %}
+      <ul class="navbar-nav ms-auto align-items-center">
+      <a href="#">
+      <img src="{{current_user.get_icon_url()}}" style="height:50px"/>
+       </a>
         <li class="nav-item">
-        <div class="row">
-        <div class="col-12">
-
-        </div>
-        <div class="col-12">
-
-        </div>
+          <div class="row">
+            <div class="col-12">
+              <a class="nav-link" href="{{url_for('auth.edit_profile')}}"><i class="bi bi-gear-fill"></i></a>
+            </div>
+          <div class="col-12">
+            <a class="nav-link" href="{{url_for('auth.logout')}}"><i class="bi bi-box-arrow-right"></i></a>
+          </div>
         </div>
         </li>
       </ul>
+       {% endif %}
     </div>
   </div>
 </nav>
