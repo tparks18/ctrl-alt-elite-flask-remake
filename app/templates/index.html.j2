@@ -1,8 +1,20 @@
-{% extends 'base.html.j2' %}
- {% block title %}
- Fakebook
-    {% endblock title %}
+{% extends 'base.html.j2'%}
+{% block title %}
+Fakebook
+{% endblock %}
 
 {% block content %}
-Hello
+    <form method="POST" action="{{url_for('social.index')}}">
+        <div class="mb-3">
+            <textarea class="form-control" placeholder="What is on your mind?" name="body" style="height: 100px;"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-send-fill"></i>&nbsp;Post</button>
+    </form>
+
+    <h1>News Feed</h1>
+    <hr>
+    {% for post in posts %}
+        {% include './includes/_post.html.j2' %}
+    {% endfor %}
+
 {% endblock %}

@@ -4,10 +4,6 @@ from flask_wtf import FlaskForm
 from flask_login import login_required
 import requests
 
-@main.route('/', methods=['GET'])
-@login_required
-def index():
-    return render_template('index.html.j2')
 
 @main.route('/ergast', methods = ['GET', 'POST'])
 @login_required

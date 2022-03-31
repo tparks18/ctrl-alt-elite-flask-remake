@@ -19,7 +19,7 @@ def login():
             login_user(u)
             # Give User feeedback of success
             flash('welcome to fakebook', 'success')
-            return redirect(url_for('main.index'))
+            return redirect(url_for('social.index'))
             # Give user Invalid Password Combo error
         flash('invalid password email combo', 'danger')
         return redirect(url_for('auth.login'))
