@@ -13,6 +13,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('main.ergast')}}">Ergast</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('social.show_users')}}">Discover</a>
+        </li>
         {% else %}
         <li class="nav-item">
         <a class="nav-link" href="{{url_for('auth.login')}}">Login</a>
@@ -24,7 +27,7 @@
       </ul>
       {% if current_user.is_authenticated %}
       <ul class="navbar-nav ms-auto align-items-center">
-      <a href="#">
+      <a href="{{url_for('social.my_posts')}}">
       <img src="{{current_user.get_icon_url()}}" style="height:50px"/>
        </a>
         <li class="nav-item">
