@@ -29,6 +29,7 @@ class User(UserMixin, db.Model):
     )
     token = db.Column(db.String, index=True, unique=True)
     token_exp = db.Column(db.DateTime)
+    is_admin = db.Column(db.Boolean, default=False)
 
     ####################################
     #######Methods for Token Auth#######
