@@ -1,7 +1,8 @@
 from app import db, login
 from flask_login import UserMixin # This is just for the User model!
-from datetime import datetime as dt
+from datetime import datetime as dt, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
+import secrets
 
 followers = db.Table(
     'followers',
@@ -13,7 +14,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(150))
     last_name = db.Column(db.String(150))
-    email = db.Column(db.String(150), unique=True)
+    email = db.Column(db.String(150), index=True, unique=True)
     password = db.Column(db.String(200))
     icon = db.Column(db.Integer)
     created_on = db.Column(db.DateTime, default = dt.utcnow)
@@ -26,6 +27,38 @@ class User(UserMixin, db.Model):
         backref=db.backref('followers',lazy='dynamic'),
         lazy='dynamic'
     )
+    token = db.Column(db.String, index=True, unique=True)
+    token_exp = db.Column(db.DateTime)
+
+    ####################################
+    #######Methods for Token Auth#######
+    ####################################
+
+    def get_token(self, exp=86400):
+        current_time = dt.utcnow()
+        #give user a token if it is not expired
+        if self.token and self.token_exp > current_time + timedelta(seconds=60):
+            return self.token
+        #if the token does not exist or the token is expired
+        self.token = secrets.token_urlsafe(32)
+        self.token_exp = current_time + timedelta(seconds=exp)
+        self.save()
+        return self.token
+
+    def revoke_token(self):
+        self.token_exp = dt.utcnow() - timedelta(seconds=61)
+
+    @staticmethod
+    def check_token(token):
+        u = User.query.filter_by(token=token).first()
+        if not u or u.token_exp < dt.utcnow():
+            return None
+        return u
+
+     ####################################
+    #######End Methods for Token Auth#######
+    ####################################
+
 
     def __repr__(self):
         return f'<User: {self.id} | {self.email}>'
@@ -93,6 +126,14 @@ class Post(db.Model):
 
     def __repr__(self):
         return f'<Post: {self.id} | {self.body[:15]}>'
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'body': self.body,
+            'date_created': self.date_created,
+            'user_id': self.user_id
+        }
 
     def edit(self, new_body):
         self.body = new_body
