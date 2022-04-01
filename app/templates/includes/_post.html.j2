@@ -18,7 +18,7 @@
         <small><a href="{{url_for('social.get_post', id=post.id)}}">View Post</a></small>
         
         {% if current_user.id == post.author.id %}
-            <small><a href="#">Edit Post</a></small>
+            <small><a href="{{url_for('social.edit_post', id=post.id)}}">Edit Post</a></small>
         {% endif %}
 
         <p class="card-text"><small class="text-muted">
