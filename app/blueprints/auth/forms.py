@@ -54,6 +54,7 @@ class EditProfileForm(FlaskForm):
     r2=random.randint(1001,2000)
     r3=random.randint(2001,3000)
     r4=random.randint(3001,4000)
+    
     r1_img=Markup(f'<img src="https://avatars.dicebear.com/api/bottts/{r1}.svg" style="height:75px">')
     r2_img=Markup(f'<img src="https://avatars.dicebear.com/api/bottts/{r2}.svg" style="height:75px">')
     r3_img=Markup(f'<img src="https://avatars.dicebear.com/api/bottts/{r3}.svg" style="height:75px">')
