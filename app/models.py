@@ -103,7 +103,7 @@ class User(UserMixin, db.Model):
         self.last_name = data['last_name']
         self.email = data['email']
         self.password = self.hash_password(data['password'])
-        self.icon = data['icon']
+        self.icon = data['icon'] #self.icon because it belongs to the instance of the user
 
     # saves the user to the database
     def save(self):

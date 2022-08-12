@@ -22,6 +22,7 @@ def show_users():
     users=User.query.all()
     return render_template('show_users.html.j2', users=users)
 
+#follow a user
 @social.route('/follow/<int:id>')
 @login_required
 def follow(id):
@@ -30,6 +31,7 @@ def follow(id):
     flash(f"You are now following {user_to_follow.first_name} {user_to_follow.last_name}", "success")
     return redirect(url_for('social.show_users'))
 
+#unfollow a user
 @social.route('/unfollow/<int:id>')
 @login_required
 def unfollow(id):
