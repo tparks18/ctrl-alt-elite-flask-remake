@@ -7,7 +7,7 @@ from helpers import require_admin
 #Get all the categories
 
 @api.get('/category')
-@token_auth.login_required()
+#@token_auth.login_required()
 def get_category():
     cats = Category.query.all()
     cats_dicts = [cat.to_dict() for cat in cats]
@@ -56,7 +56,7 @@ def delete_category(id):
 
 #get all items from shop
 @api.get('/item')
-@token_auth.login_required()
+#@token_auth.login_required()
 def get_items():
     items = Item.query.all()
     items_dicts = [item.to_dict() for item in items]
@@ -64,7 +64,7 @@ def get_items():
 
 #get an item by its id
 @api.get('/item/<int:id>')
-@token_auth.login_required()
+#@token_auth.login_required()
 def get_item(id):
     item = Item.query.get(id)
     if not item:
@@ -73,7 +73,7 @@ def get_item(id):
 
 #get all items in a category(by cat id)
 @api.get('/item/category/<int:id>')
-@token_auth.login_required()
+#@token_auth.login_required()
 def get_items_by_cat(id):
     cat = Category.query.get(id)
     if not cat:
