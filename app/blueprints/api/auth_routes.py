@@ -26,3 +26,10 @@ def make_admin(id):
     u.save()
     return make_response(f'{u.first_name} {u.last_name} is now an Admin', 200)
 
+###NEW
+@api.get('/login')
+@basic_auth.login_required()
+def get_login():
+    user = g.current_user
+    token = user.get_token()
+    return make_response({"token":token, **user.to_dict()}, 200)
